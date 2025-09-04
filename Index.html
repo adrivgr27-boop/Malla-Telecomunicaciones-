@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Curricular - Telecomunicaciones</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f4f8fb;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .semester {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .semester h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #0066cc;
+    }
+    .course {
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+    }
+    .course.locked {
+      background: #eee;
+      color: #888;
+      cursor: not-allowed;
+    }
+    .course.unlocked {
+      background: #e8f5e9;
+    }
+    .course.completed {
+      background: #4caf50;
+      color: white;
+      text-decoration: line-through;
+    }
+    .tooltip {
+      visibility: hidden;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      width: 200px;
+      font-size: 12px;
+    }
+    .course:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>Malla Curricular - Ingeniería en Telecomunicaciones</h1>
+  <div class="grid" id="curriculum"></div>  <script>
+    const curriculumData = [
+      {
+        title: "PRIMER SEMESTRE (26 UC)",
+        courses: [
+          { name: "Álgebra y Trigonometría", uc: 5, id: "algebra" },
+          { name: "Cálculo Diferencial", uc: 6, id: "calc1" },
+          { name: "Lógica", uc: 4, id: "logica" },
+          { name: "Competencia textual español", uc: 5, id: "texto" },
+          { name: "Introducción a las telecomunicaciones", uc: 3, id: "introTelco" },
+          { name: "Identidad, Liderazgo y Compromiso I", uc: 3, id: "liderazgo1" }
+        ]
+      },
+      {
+        title: "SEGUNDO SEMESTRE (30 UC)",
+        courses: [
+          { name: "Cálculo Integral", uc: 5, id: "calc2", req: ["calc1"] },
+          { name: "Álgebra Lineal", uc: 6, id: "lineal", req: ["calc1","algebra"] },
+          { name: "Contabilidad Financiera", uc: 5, id: "conta", reqUC: 15 },
+          { name: "Física General", uc: 6, id: "fisica", req: ["calc1"] },
+          { name: "Programación Estructurada", uc: 5, id: "progE", req: ["logica"] },
+          { name: "Identidad, Liderazgo y Compromiso II", uc: 3, id: "liderazgo2", req: ["liderazgo1"] }
+        ]
+      },
+      // ... Puedes seguir agregando todos los semestres con la misma estructura ...
+    ];
+
+    const container = document.getElementById("curriculum");
+
+    // Cargar progreso guardado
+    let completed = JSON.parse(localStorage.getItem("completedCourses") || "[]");
+
+    function calculateUC() {
+      return curriculumData.flatMap(s => s.courses)
+        .filter(c => completed.includes(c.id))
+        .reduce((sum, c) => sum + (c.uc || 0), 0);
+    }
+
+    function render() {
+      container.innerHTML = "";
+      const totalUC = calculateUC();
+
+      curriculumData.forEach(sem => {
+        const semDiv = document.createElement("div");
+        semDiv.className = "semester";
+        semDiv.innerHTML = `<h2>${sem.title}</h2>`;
+
+        sem.courses.forEach(course => {
