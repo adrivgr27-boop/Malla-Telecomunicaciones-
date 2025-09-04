@@ -1,326 +1,464 @@
-      <!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla curricular – //Colocas el nombre//</title>
-  <style>
-    :root{
-      --bg:#f7f7fb;
-      --card:#ffffff;
-      --soft:#e8eef6;
-      --accent:#6c8ae4;
-      --accent-2:#7dcfb6;
-      --text:#222;
-      --muted:#667085;
-      --ok:#18a999;
-      --warn:#e57b7b;
-      --locked:#c6cbd9;
-      --rounded:16px;
-      --shadow:0 6px 18px rgba(0,0,0,.08);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background:linear-gradient(180deg,var(--bg),#fff 70%);
-      color:var(--text);
-    }
-    header{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(8px);
-      background:rgba(255,255,255,.75);
-      border-bottom:1px solid #eef1f6;
-    }
-    .wrap{max-width:1200px; margin:0 auto; padding:16px 20px}
-    .title{
-      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
-    }
-    .title input{
-      font-size:1.25rem; padding:10px 12px; border-radius:12px; border:1px solid #d9e0ea; outline:0; min-width:240px;
-      background:#fff;
-    }
-    .badges{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .badge{background:var(--soft); color:#344054; padding:6px 10px; border-radius:999px; font-size:.85rem}
-    .btn{
-      border:0; background:var(--accent); color:#fff; border-radius:12px; padding:10px 14px; cursor:pointer; box-shadow:var(--shadow);
-      transition: transform .05s ease;
-    }
-    .btn:active{transform:translateY(1px)}.grid{
-  display:grid; grid-template-columns: repeat(10, minmax(220px, 1fr)); gap:16px; padding:20px; max-width:1400px; margin:0 auto;
-}
-@media (max-width:1200px){ .grid{ grid-template-columns: repeat(2, 1fr);} }
-@media (max-width:720px){ .grid{ grid-template-columns: 1fr; } }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular - Ingeniería en Telecomunicaciones</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-.column{
-  background:var(--card); border-radius:var(--rounded); box-shadow:var(--shadow);
-  padding:14px; display:flex; flex-direction:column; gap:10px; border:1px solid #eef1f6;
-}
-.col-head{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
-.col-head h3{ margin:.2rem 0; font-size:1rem; color:#111; }
-.col-sub{ font-size:.8rem; color:var(--muted); }
+        :root {
+            --bg-color: #f4f7f9;
+            --primary-color: #5b9bd5;
+            --secondary-color: #e6f0fa;
+            --text-color: #333;
+            --card-bg: #fff;
+            --completed-bg: #d4edda;
+            --completed-border: #c3e6cb;
+            --locked-bg: #f8d7da;
+            --locked-border: #f5c6cb;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
 
-.course{
-  position:relative; background:var(--soft); border-radius:14px; padding:10px 12px; border:1px solid #dde6f3;
-  display:flex; flex-direction:column; gap:6px; cursor:pointer; transition: background .2s ease, opacity .2s ease, border-color .2s ease;
-}
-.course:hover{ background:#e4ebf7 }
-.course.locked{ cursor:not-allowed; opacity:.65; background:#f0f2f7; border-color:var(--locked); }
-.course .name{ font-weight:600; font-size:.95rem }
-.course .meta{ display:flex; align-items:center; gap:8px; font-size:.8rem; color:#475467 }
-.pill{ padding:4px 8px; background:#fff; border-radius:999px; border:1px solid #d8e2f0 }
-.reqs{ font-size:.78rem; color:#5f6b7a }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.course.approved{ background:linear-gradient(180deg,#f7fffb,#f3fbf9); border-color: #cceee7 }
-.course.approved .name{ color:#116c61 }
-.course.approved .pill{ border-color:#bfe7de }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+        }
 
-.totals{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
-.totals .kpi{ background:#fff; border:1px solid #e6edf7; padding:8px 10px; border-radius:12px; font-size:.85rem }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-/* Tooltip */
-.tooltip{ position:absolute; top:8px; right:8px; }
-.tooltip .tiptext{
-  visibility:hidden; opacity:0; transition:opacity .2s ease; position:absolute; right:0; top:24px; z-index:20;
-  background:#111; color:#fff; padding:8px 10px; border-radius:10px; width:240px; font-size:.8rem; box-shadow:var(--shadow);
-}
-.course.locked:hover .tiptext{ visibility:visible; opacity:1 }
-.hint{ color:#344054; font-size:.85rem }
-.muted{ color:var(--muted) }
-footer{ max-width:1200px; margin:0 auto; padding:10px 20px 40px; color:#6b7280; font-size:.85rem }
+        h1 {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-  </style>
+        p.subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .semester {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .semester-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .semester-title .total-uc {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .course-card {
+            background-color: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-card.completed {
+            background-color: var(--completed-bg);
+            border-color: var(--completed-border);
+            color: #155724;
+            transform: scale(1.02);
+        }
+
+        .course-card.locked {
+            background-color: var(--locked-bg);
+            border-color: var(--locked-border);
+            color: #721c24;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .course-card .course-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+
+        .course-card .course-uc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .course-card.completed .course-uc {
+            color: #155724;
+        }
+
+        .course-card.locked .course-uc {
+            color: #721c24;
+        }
+
+        .tooltip {
+            position: absolute;
+            top: 50%;
+            left: 105%;
+            transform: translateY(-50%);
+            background-color: #333;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+            z-index: 10;
+        }
+
+        .course-card.locked:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #333 transparent transparent;
+        }
+
+        .info-panel {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .info-panel h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-panel p {
+            font-size: 1rem;
+        }
+        
+        .disclaimer {
+            text-align: center;
+            color: #999;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+        }
+
+    </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <div class="title">
-        <h1 style="margin:.2rem 0">Malla curricular — <span id="program-name-display">//Colocas el nombre//</span></h1>
-        <input id="program-name-input" placeholder="Escribe aquí el nombre de la carrera" />
-        <button class="btn" id="save-name">Guardar nombre</button>
-        <button class="btn" id="reset">Reiniciar progreso</button>
-      </div>
-      <div class="totals" style="margin-top:10px">
-        <div class="kpi">UC aprobadas: <b id="uc-aprobadas">0</b></div>
-        <div class="kpi">Asignaturas aprobadas: <b id="cursos-aprobados">0</b></div>
-        <div class="kpi">Asignaturas totales: <b id="cursos-totales">0</b></div>
-        <div class="kpi">Progreso: <b id="progreso">0%</b></div>
-      </div>
-    </div>
-  </header>  <main class="grid" id="grid"></main>  <footer>
-    Consejo: pasa el cursor sobre una materia bloqueada para ver <span class="hint">qué requisitos te faltan</span>. Tu progreso se guarda automáticamente en este navegador (<code>localStorage</code>).
-  </footer><script>
-// ======== Datos de la malla ========
-const SEMESTERS = [
-  { key:"S1", title:"PRIMER SEMESTRE", totalUC:26 },
-  { key:"S2", title:"SEGUNDO SEMESTRE", totalUC:30 },
-  { key:"S3", title:"TERCER SEMESTRE", totalUC:30 },
-  { key:"S4", title:"CUARTO SEMESTRE", totalUC:31 },
-  { key:"S5", title:"QUINTO SEMESTRE", totalUC:29 },
-  { key:"S6", title:"SEXTO SEMESTRE", totalUC:29 },
-  { key:"S7", title:"SÉPTIMO SEMESTRE", totalUC:30 },
-  { key:"S8", title:"OCTAVO SEMESTRE", totalUC:25 },
-  { key:"S9", title:"NOVENO SEMESTRE", totalUC:21 },
-  { key:"REQ", title:"REQUISITOS", totalUC:null }
-];
 
-// Utilidad para crear IDs legibles
-const id = s => s.toLowerCase()
-  .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o').replace(/ú/g,'u').replace(/ñ/g,'n')
-  .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    <header>
+        <h1>Malla Curricular Interactiva</h1>
+        <p class="subtitle">Ingeniería en Telecomunicaciones</p>
+    </header>
 
-// Lista de cursos
-const COURSES = [
-  // S1
-  { name:"Algebra y Trigonometría", uc:5, sem:"S1", req:[] },
-  { name:"Cálculo Diferencial", uc:6, sem:"S1", req:[] },
-  { name:"Lógica", uc:4, sem:"S1", req:[] },
-  { name:"Competencia textual español", uc:5, sem:"S1", req:[] },
-  { name:"Introducción a las telecomunicaciones", uc:3, sem:"S1", req:[] },
-  { name:"Identidad, Liderazgo y Compromiso I", uc:3, sem:"S1", req:[] },
-  // S2
-  { name:"Cálculo Integral", uc:5, sem:"S2", req:["Cálculo Diferencial"] },
-  { name:"Álgebra Lineal", uc:6, sem:"S2", req:["Cálculo Diferencial","Algebra y Trigonometría"] },
-  { name:"Contabilidad Financiera", uc:5, sem:"S2", req:[{uc:15}] },
-  { name:"Física General", uc:6, sem:"S2", req:["Cálculo Diferencial"] },
-  { name:"Programación Estructurada", uc:5, sem:"S2", req:["Lógica"] },
-  { name:"Identidad, Liderazgo y Compromiso II", uc:3, sem:"S2", req:["Identidad, Liderazgo y Compromiso I"] },
-  // S3
-  { name:"Ecuaciones Diferenciales Ordinarias", uc:4, sem:"S3", req:["Cálculo Integral","Álgebra Lineal"] },
-  { name:"Cálculo Vectorial", uc:5, sem:"S3", req:["Cálculo Integral"] },
-  { name:"Ingeniería Económica", uc:4, sem:"S3", req:["Contabilidad Financiera"] },
-  { name:"Circuitos Eléctricos", uc:6, sem:"S3", req:["Ecuaciones Diferenciales Ordinarias"] },
-  { name:"Laboratorio de Circuitos Eléctricos", uc:3, sem:"S3", req:["Circuitos Eléctricos"] },
-  { name:"Programación Orientada a Objetos", uc:5, sem:"S3", req:["Programación Estructurada"] },
-  { name:"Innovación y Emprendimiento", uc:3, sem:"S3", req:["Identidad, Liderazgo y Compromiso I"] },
-  // S4
-  { name:"Probabilidades", uc:6, sem:"S4", req:["Series y Transformadas"] },
-  { name:"Series y Transformadas", uc:6, sem:"S4", req:["Cálculo Vectorial","Ecuaciones Diferenciales Ordinarias"] },
-  { name:"Teoría de Ondas", uc:5, sem:"S4", req:["Cálculo Vectorial","Ecuaciones Diferenciales Ordinarias","Física General"] },
-  { name:"Circuitos y Sistemas Electrónicos", uc:6, sem:"S4", req:["Circuitos Eléctricos"] },
-  { name:"Electrónica Digital", uc:5, sem:"S4", req:["Circuitos Eléctricos"] },
-  { name:"Ecología, Ambiente y Sustentabilidad", uc:3, sem:"S4", req:["Innovación y Emprendimiento"] },
-  // S5
-  { name:"Señales y Sistemas Continuos", uc:7, sem:"S5", req:["Series y Transformadas","Probabilidades"] },
-  { name:"Variable Compleja", uc:5, sem:"S5", req:["Probabilidades"] },
-  { name:"Campos Electromagnéticos", uc:6, sem:"S5", req:["Teoría de Ondas"] },
-  { name:"Fundamentos de Redes de Datos", uc:5, sem:"S5", req:["Electrónica Digital"] },
-  { name:"Laboratorio de Electrónica Digital", uc:3, sem:"S5", req:["Electrónica Digital","Laboratorio de Circuitos Eléctricos"] },
-  { name:"Laboratorio de Circuitos y Sistemas Electrónicos", uc:3, sem:"S5", req:["Circuitos y Sistemas Electrónicos","Laboratorio de Circuitos Eléctricos"] },
-  { name:"Curso Servicio Comunitario", uc:0, sem:"S5", req:[] },
-  // S6
-  { name:"Fundamentos de Comunicaciones", uc:6, sem:"S6", req:["Señales y Sistemas Continuos","Variable Compleja"] },
-  { name:"Cálculo Numérico para Telecomunicaciones", uc:5, sem:"S6", req:["Series y Transformadas","Variable Compleja"] },
-  { name:"Radiaciones y Ondas Guiadas", uc:5, sem:"S6", req:["Series y Transformadas","Variable Compleja","Campos Electromagnéticos"] },
-  { name:"Enrutamiento Dinámico en Redes", uc:5, sem:"S6", req:["Fundamentos de Redes de Datos"] },
-  { name:"Laboratorio de Redes de Datos", uc:3, sem:"S6", req:["Fundamentos de Redes de Datos"] },
-  { name:"Sistemas Embebidos", uc:5, sem:"S6", req:["Circuitos y Sistemas Electrónicos","Electrónica Digital","Laboratorio de Electrónica Digital"] },
-  { name:"Servicio Comunitario", uc:0, sem:"S6", req:[] },
-  // S7
-  { name:"Comunicaciones Digitales", uc:6, sem:"S7", req:["Fundamentos de Comunicaciones"] },
-  { name:"Señales y Sistemas Discretos", uc:6, sem:"S7", req:["Cálculo Numérico para Telecomunicaciones"] },
-  { name:"Antenas", uc:5, sem:"S7", req:["Radiaciones y Ondas Guiadas"] },
-  { name:"Ondas de Alta Frecuencia", uc:5, sem:"S7", req:["Radiaciones y Ondas Guiadas"] },
-  { name:"Laboratorio de Enrutamiento Dinámico en Redes", uc:3, sem:"S7", req:["Enrutamiento Dinámico en Redes","Laboratorio de Redes de Datos"] },
-  { name:"Redes Convergentes", uc:5, sem:"S7", req:["Enrutamiento Dinámico en Redes"] },
-  // S8
-  { name:"Fundamentos de Comunicaciones Ópticas", uc:4, sem:"S8", req:["Comunicaciones Digitales"] },
-  { name:"Laboratorio de Comunicaciones", uc:3, sem:"S8", req:["Comunicaciones Digitales"] },
-  { name:"Procesamiento de Señales", uc:4, sem:"S8", req:["Señales y Sistemas Discretos"] },
-  { name:"Laboratorio de Gestión y Seguridad en Redes", uc:4, sem:"S8", req:["Redes Convergentes","Laboratorio de Enrutamiento Dinámico en Redes"] },
-  { name:"Ética Profesional", uc:3, sem:"S8", req:[{uc:180}] },
-  { name:"Seminario de Trabajo de Grado", uc:2, sem:"S8", req:[{uc:204}] },
-  { name:"Radio Comunicaciones", uc:5, sem:"S8", req:["Antenas"] },
-  // S9
-  { name:"Redes Ópticas", uc:4, sem:"S9", req:["Fundamentos de Comunicaciones Ópticas"] },
-  { name:"Sistemas de Radiodifusión", uc:5, sem:"S9", req:[{uc:205}] },
-  { name:"Sistemas Inalámbricos", uc:4, sem:"S9", req:[{uc:205}] },
-  { name:"Electiva Profesional I", uc:4, sem:"S9", req:[{uc:205}] },
-  { name:"Electiva Profesional II", uc:4, sem:"S9", req:[{uc:205}] },
-  // REQUISITOS
-  { name:"Pasantía", uc:4, sem:"REQ", req:[{uc:205}] },
-  { name:"Trabajo de Grado", uc:16, sem:"REQ", req:[] }
-].map(c => ({...c, id:id(c.name)}));
+    <main>
+        <div class="curriculum-grid" id="curriculum-grid"></div>
 
-// Índices útiles
-const byId = Object.fromEntries(COURSES.map(c => [c.id, c]));
-const byName = Object.fromEntries(COURSES.map(c => [c.name.toLowerCase(), c]));
+        <div class="info-panel">
+            <h2>Resumen del Progreso</h2>
+            <p><strong>Total de Unidades de Crédito Aprobadas:</strong> <span id="total-uc-approved">0</span></p>
+            <p><strong>Porcentaje de Carrera Aprobado:</strong> <span id="progress-percentage">0</span>%</p>
+        </div>
+        
+        <div class="disclaimer">
+            <p>Para guardar tu progreso, simplemente recarga la página. Tu avance se guardará automáticamente en este navegador.</p>
+        </div>
+    </main>
 
-// ======== Estado y almacenamiento ========
-const STORAGE_KEY = 'malla-telecomunicaciones-v1';
-const NAME_KEY = 'malla-programa-nombre';
-let approved = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const curriculumData = {
+                'Primer Semestre': {
+                    totalUc: 26,
+                    courses: [
+                        { name: 'Algebra y Trigonometría', uc: 5, id: 'algebra_trigonometria' },
+                        { name: 'Cálculo Diferencial', uc: 6, id: 'calculo_diferencial' },
+                        { name: 'Lógica', uc: 4, id: 'logica' },
+                        { name: 'Competencia textual español', uc: 5, id: 'competencia_textual' },
+                        { name: 'Introducción a las telecomunicaciones', uc: 3, id: 'intro_telecomunicaciones' },
+                        { name: 'Identidad, Liderazgo y Compromiso I', uc: 3, id: 'identidad_liderazgo_1' }
+                    ]
+                },
+                'Segundo Semestre': {
+                    totalUc: 30,
+                    courses: [
+                        { name: 'Cálculo Integral', uc: 5, id: 'calculo_integral', req: ['calculo_diferencial'] },
+                        { name: 'Algebra Lineal', uc: 6, id: 'algebra_lineal', req: ['calculo_diferencial', 'algebra_trigonometria'] },
+                        { name: 'Contabilidad Financiera', uc: 5, id: 'contabilidad_financiera', reqUc: 15 },
+                        { name: 'Física General', uc: 6, id: 'fisica_general', req: ['calculo_diferencial'] },
+                        { name: 'Programación Estructurada', uc: 5, id: 'programacion_estructurada', req: ['logica'] },
+                        { name: 'Identidad, Liderazgo y Compromiso II', uc: 3, id: 'identidad_liderazgo_2', req: ['identidad_liderazgo_1'] }
+                    ]
+                },
+                'Tercer Semestre': {
+                    totalUc: 30,
+                    courses: [
+                        { name: 'Ecuaciones Diferenciales Ordinarias', uc: 4, id: 'ecuaciones_diferenciales', req: ['calculo_integral', 'algebra_lineal'] },
+                        { name: 'Cálculo Vectorial', uc: 5, id: 'calculo_vectorial', req: ['calculo_integral'] },
+                        { name: 'Ingeniería Económica', uc: 4, id: 'ingenieria_economica', req: ['contabilidad_financiera'] },
+                        { name: 'Circuitos Eléctricos', uc: 6, id: 'circuitos_electricos', req: ['ecuaciones_diferenciales'] },
+                        { name: 'Laboratorio de Circuitos Eléctricos', uc: 3, id: 'lab_circuitos_electricos', req: ['circuitos_electricos'] },
+                        { name: 'Programación Orientada a Objetos', uc: 5, id: 'programacion_orientada_objetos', req: ['programacion_estructurada'] },
+                        { name: 'Innovación y Emprendimiento', uc: 3, id: 'innovacion_emprendimiento', req: ['identidad_liderazgo_1'] }
+                    ]
+                },
+                'Cuarto Semestre': {
+                    totalUc: 31,
+                    courses: [
+                        { name: 'Probabilidades', uc: 6, id: 'probabilidades', req: ['series_transformadas'] },
+                        { name: 'Series y Transformadas', uc: 6, id: 'series_transformadas', req: ['calculo_vectorial', 'ecuaciones_diferenciales'] },
+                        { name: 'Teoría de Ondas', uc: 5, id: 'teoria_ondas', req: ['calculo_vectorial', 'ecuaciones_diferenciales', 'fisica_general'] },
+                        { name: 'Circuitos y Sistemas Electrónicos', uc: 6, id: 'circuitos_sistemas_electronicos', req: ['circuitos_electricos'] },
+                        { name: 'Electrónica Digital', uc: 5, id: 'electronica_digital', req: ['circuitos_electricos'] },
+                        { name: 'Ecología, Ambiente y Sustentabilidad', uc: 3, id: 'ecologia_ambiente_sustentabilidad', req: ['innovacion_emprendimiento'] }
+                    ]
+                },
+                'Quinto Semestre': {
+                    totalUc: 29,
+                    courses: [
+                        { name: 'Señales y Sistemas Continuos', uc: 7, id: 'senales_sistemas_continuos', req: ['series_transformadas', 'probabilidades'] },
+                        { name: 'Variable Compleja', uc: 5, id: 'variable_compleja', req: ['probabilidades'] },
+                        { name: 'Campos Electromagnéticos', uc: 6, id: 'campos_electromagneticos', req: ['teoria_ondas'] },
+                        { name: 'Fundamentos de Redes de Datos', uc: 5, id: 'fundamentos_redes_datos', req: ['electronica_digital'] },
+                        { name: 'Laboratorio de Electrónica Digital', uc: 3, id: 'lab_electronica_digital', req: ['electronica_digital', 'lab_circuitos_electricos'] },
+                        { name: 'Laboratorio de Circuitos y Sistemas Electrónicos', uc: 3, id: 'lab_circuitos_sistemas_electronicos', req: ['circuitos_sistemas_electronicos', 'lab_circuitos_electricos'] },
+                        { name: 'Curso Servicio Comunitario', uc: 0, id: 'curso_servicio_comunitario' }
+                    ]
+                },
+                'Sexto Semestre': {
+                    totalUc: 29,
+                    courses: [
+                        { name: 'Fundamentos de Comunicaciones', uc: 6, id: 'fundamentos_comunicaciones', req: ['senales_sistemas_continuos', 'variable_compleja'] },
+                        { name: 'Cálculo Numérico para Telecomunicaciones', uc: 5, id: 'calculo_numerico', req: ['series_transformadas', 'variable_compleja'] },
+                        { name: 'Radiaciones y Ondas Guiadas', uc: 5, id: 'radiaciones_ondas_guiadas', req: ['series_transformadas', 'variable_compleja', 'campos_electromagneticos'] },
+                        { name: 'Enrutamiento Dinámico en Redes', uc: 5, id: 'enrutamiento_dinamico', req: ['fundamentos_redes_datos'] },
+                        { name: 'Laboratorio de Redes de Datos', uc: 3, id: 'lab_redes_datos', req: ['fundamentos_redes_datos'] },
+                        { name: 'Sistemas Embebidos', uc: 5, id: 'sistemas_embebidos', req: ['circuitos_sistemas_electronicos', 'electronica_digital', 'lab_electronica_digital'] },
+                        { name: 'Servicio Comunitario', uc: 0, id: 'servicio_comunitario' }
+                    ]
+                },
+                'Séptimo Semestre': {
+                    totalUc: 30,
+                    courses: [
+                        { name: 'Comunicaciones Digitales', uc: 6, id: 'comunicaciones_digitales', req: ['fundamentos_comunicaciones'] },
+                        { name: 'Señales y Sistemas Discretos', uc: 6, id: 'senales_sistemas_discretos', req: ['calculo_numerico'] },
+                        { name: 'Antenas', uc: 5, id: 'antenas', req: ['radiaciones_ondas_guiadas'] },
+                        { name: 'Ondas de Alta Frecuencia', uc: 5, id: 'ondas_alta_frecuencia', req: ['radiaciones_ondas_guiadas'] },
+                        { name: 'Laboratorio de Enrutamiento Dinámico en Redes', uc: 3, id: 'lab_enrutamiento_dinamico', req: ['enrutamiento_dinamico', 'lab_redes_datos'] },
+                        { name: 'Redes Convergentes', uc: 5, id: 'redes_convergentes', req: ['enrutamiento_dinamico'] }
+                    ]
+                },
+                'Octavo Semestre': {
+                    totalUc: 25,
+                    courses: [
+                        { name: 'Fundamentos de Comunicaciones Ópticas', uc: 4, id: 'comunicaciones_opticas', req: ['comunicaciones_digitales'] },
+                        { name: 'Laboratorio de Comunicaciones', uc: 3, id: 'lab_comunicaciones', req: ['comunicaciones_digitales'] },
+                        { name: 'Procesamiento de Señales', uc: 4, id: 'procesamiento_senales', req: ['senales_sistemas_discretos'] },
+                        { name: 'Laboratorio de Gestión y Seguridad en Redes', uc: 4, id: 'lab_gestion_seguridad', req: ['redes_convergentes', 'lab_enrutamiento_dinamico'] },
+                        { name: 'Ética Profesional', uc: 3, id: 'etica_profesional', reqUc: 180 },
+                        { name: 'Seminario de Trabajo de Grado', uc: 2, id: 'seminario_trabajo_grado', reqUc: 204 },
+                        { name: 'Radio Comunicaciones', uc: 5, id: 'radio_comunicaciones', req: ['antenas'] }
+                    ]
+                },
+                'Noveno Semestre': {
+                    totalUc: 21,
+                    courses: [
+                        { name: 'Redes Ópticas', uc: 4, id: 'redes_opticas', req: ['comunicaciones_opticas'] },
+                        { name: 'Sistemas de Radiodifusión', uc: 5, id: 'sistemas_radiodifusion', reqUc: 205 },
+                        { name: 'Sistemas Inalámbricos', uc: 4, id: 'sistemas_inalambricos', reqUc: 205 },
+                        { name: 'Electiva Profesional', uc: 4, id: 'electiva_profesional_1', reqUc: 205 },
+                        { name: 'Electiva Profesional', uc: 4, id: 'electiva_profesional_2', reqUc: 205 }
+                    ]
+                },
+                'Requisitos Adicionales': {
+                    totalUc: 20,
+                    courses: [
+                        { name: 'Pasantía', uc: 4, id: 'pasantia', reqUc: 205 },
+                        { name: 'Trabajo de Grado', uc: 16, id: 'trabajo_grado' }
+                    ]
+                }
+            };
+            
+            const totalCareerUc = 251; // Suma total de UC de la carrera
+            let approvedCourses = JSON.parse(localStorage.getItem('approvedCourses')) || [];
 
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify([...approved])); updateKPIs(); }
-function reset(){ if(confirm('¿Seguro que deseas reiniciar tu progreso?')){ approved.clear(); save(); render(); }}
+            const grid = document.getElementById('curriculum-grid');
+            const totalUcApprovedSpan = document.getElementById('total-uc-approved');
+            const progressPercentageSpan = document.getElementById('progress-percentage');
+            
+            // Función para obtener el nombre de una materia por su ID
+            const getCourseNameById = (id) => {
+                for (const semester in curriculumData) {
+                    const course = curriculumData[semester].courses.find(c => c.id === id);
+                    if (course) return course.name;
+                }
+                return 'Requisito desconocido';
+            };
 
-// ======== Utilidades de requisitos ========
-function approvedUC(){ return [...approved].reduce((sum, id) => sum + (byId[id]?.uc || 0), 0); }
+            const updateProgress = () => {
+                let totalUc = 0;
+                approvedCourses.forEach(id => {
+                    const course = getCourseDataById(id);
+                    if (course) totalUc += course.uc;
+                });
+                totalUcApprovedSpan.textContent = totalUc;
+                const percentage = ((totalUc / totalCareerUc) * 100).toFixed(2);
+                progressPercentageSpan.textContent = percentage;
+            };
+            
+            const getCourseDataById = (id) => {
+                for (const semester in curriculumData) {
+                    const course = curriculumData[semester].courses.find(c => c.id === id);
+                    if (course) return course;
+                }
+                return null;
+            };
+            
+            const isCourseApproved = (courseId) => {
+                return approvedCourses.includes(courseId);
+            };
 
-function checkPrereqs(course){
-  const missing = [];
-  const totalUC = approvedUC();
-  for(const r of course.req){
-    if(typeof r === 'string'){
-      const ref = byName[r.toLowerCase()] || byName[id(r).replace(/-/g,' ')];
-      const refId = ref?.id || id(r);
-      if(!approved.has(refId)) missing.push(`• ${ref?.name || r}`);
-    } else if(r && typeof r.uc === 'number'){
-      if(totalUC < r.uc) missing.push(`• ${r.uc} UC aprobadas`);
-    }
-  }
-  return missing;
-}
+            const checkRequirements = (course) => {
+                let unlocked = true;
+                const missingReqs = [];
+                let ucApprovedTotal = 0;
+                
+                approvedCourses.forEach(id => {
+                    const courseData = getCourseDataById(id);
+                    if (courseData) ucApprovedTotal += courseData.uc;
+                });
 
-function isLocked(course){
-  return checkPrereqs(course).length > 0;
-}
+                if (course.req) {
+                    for (const reqId of course.req) {
+                        if (!isCourseApproved(reqId)) {
+                            unlocked = false;
+                            missingReqs.push(getCourseNameById(reqId));
+                        }
+                    }
+                }
+                
+                if (course.reqUc && ucApprovedTotal < course.reqUc) {
+                    unlocked = false;
+                    missingReqs.push(`Total de UC: ${course.reqUc} UC (Tienes ${ucApprovedTotal})`);
+                }
+                
+                return { unlocked, missingReqs };
+            };
 
-// ======== Render ========
-const grid = document.getElementById('grid');
+            const renderCurriculum = () => {
+                grid.innerHTML = '';
+                for (const semesterName in curriculumData) {
+                    const semester = curriculumData[semesterName];
+                    const semesterDiv = document.createElement('div');
+                    semesterDiv.classList.add('semester');
+                    
+                    const semesterTitle = document.createElement('h2');
+                    semesterTitle.classList.add('semester-title');
+                    semesterTitle.innerHTML = `${semesterName} <span class="total-uc">${semester.totalUc} UC</span>`;
+                    semesterDiv.appendChild(semesterTitle);
 
-function render(){
-  grid.innerHTML = '';
-  // Por columna
-  for(const sem of SEMESTERS){
-    const col = document.createElement('section');
-    col.className = 'column';
+                    semester.courses.forEach(course => {
+                        const courseCard = document.createElement('div');
+                        courseCard.classList.add('course-card');
+                        courseCard.dataset.id = course.id;
 
-    // Encabezado de columna
-    const head = document.createElement('div'); head.className='col-head';
-    const h3 = document.createElement('h3'); h3.textContent = sem.title;
-    const sub = document.createElement('div'); sub.className='col-sub';
-    const cursosSem = COURSES.filter(c => c.sem === sem.key);
-    const sumUC = cursosSem.reduce((s,c)=>s+c.uc,0);
-    sub.textContent = (sem.totalUC?`Total UC ${sem.totalUC}`:` `) + (sem.key!=='REQ'?` · ${cursosSem.length} materias`:``);
-    head.appendChild(h3); head.appendChild(sub); col.appendChild(head);
-
-    // Lista de cursos
-    for(const course of cursosSem){
-      const locked = isLocked(course);
-      const el = document.createElement('div');
-      el.className = 'course' + (approved.has(course.id)?' approved':'') + (locked?' locked':'');
-      el.dataset.id = course.id;
-
-      const name = document.createElement('div'); name.className='name'; name.textContent = course.name; el.appendChild(name);
-      const meta = document.createElement('div'); meta.className='meta';
-      const pillUC = document.createElement('span'); pillUC.className='pill'; pillUC.textContent = `${course.uc} UC`;
-      meta.appendChild(pillUC);
-      if(course.req?.length){
-        const rq = document.createElement('span'); rq.className='reqs muted'; rq.textContent = `Req: ` + course.req.map(r=> typeof r==='string'? byName[r.toLowerCase()]?.name || r : `${r.uc} UC`).join(', ');
-        meta.appendChild(rq);
-      }
-      el.appendChild(meta);
-
-      // Tooltip si está bloqueada
-      if(locked){
-        const tipWrap = document.createElement('div'); tipWrap.className='tooltip';
-        const tip = document.createElement('div'); tip.className='tiptext';
-        const missing = checkPrereqs(course).join('\n');
-        tip.textContent = `Falta aprobar:\n${missing}`;
-        tipWrap.appendChild(tip);
-        el.appendChild(tipWrap);
-      }
-
-      // Click para (des)aprobar
-      el.addEventListener('click', (e)=>{
-        if(isLocked(course)) return; // no permitir marcar si bloqueada
-        if(approved.has(course.id)) approved.delete(course.id); else approved.add(course.id);
-        save(); render();
-      });
-
-      col.appendChild(el);
-    }
-
-    grid.appendChild(col);
-  }
-  updateKPIs();
-}
-
-function updateKPIs(){
-  const totalCourses = COURSES.length;
-  const approvedCourses = approved.size;
-  const uc = approvedUC();
-  document.getElementById('cursos-totales').textContent = totalCourses;
-  document.getElementById('cursos-aprobados').textContent = approvedCourses;
-  document.getElementById('uc-aprobadas').textContent = uc;
-  document.getElementById('progreso').textContent = Math.round(approvedCourses/totalCourses*100) + '%';
-}
-
-// ======== Nombre del programa ========
-const nameInput = document.getElementById('program-name-input');
-const nameDisplay = document.getElementById('program-name-display');
-const savedName = localStorage.getItem(NAME_KEY);
-if(savedName){ nameDisplay.textContent = savedName; nameInput.value = savedName; }
-
-document.getElementById('save-name').addEventListener('click', ()=>{
-  const v = nameInput.value.trim() || '//Colocas el nombre//';
-  localStorage.setItem(NAME_KEY, v);
-  nameDisplay.textContent = v;
-});
-
-document.getElementById('reset').addEventListener('click', reset);
-
-// ======== Inicialización ========
-render();
-</script></body>
-      </html>      
+                        const { unlocked, missingReqs } = checkRequirements(course);
+                        
+                        if (isCourseApproved(course.id)) {
+                            courseCard.classList.add('completed');
+                        } else if (!unlocked) {
+                            courseCard.classList.add('locked');
+                            const tooltip = document.createElement('div');
+                            tooltip.classList.add('tooltip');
+                            tooltip.innerHTML = `Falta: <br> ${missingReqs.join('<br>')}`;
+                            courseCard.appendChild(tooltip);
+                        }
+                        
+                        courseCard.innerHTML += `<div class="course-name">${course.name}</div>`;
+                        courseCard.innerHTML += `<div class="course-uc">${course.uc} UC</div>`;
+                        
+                        semesterDiv.appendChild(courseCard);
+                    });
+                    
+                    grid.appendChild(semesterDiv);
+                }
+                updateProgress();
+            };
+            
+            const handleCourseClick = (event) => {
+                const card = event.target.closest('.course-card');
+                if (!card) return;
+                
+                const courseId = card.dataset.id;
+                
+                if (card.classList.contains('locked')) {
+                    // Do nothing if the card is locked
+                    return;
+                }
+                
+                if (isCourseApproved(courseId)) {
+                    // Remove from approved list
+                    approvedCourses = approvedCourses.filter(id => id !== courseId);
+                } else {
+                    // Add to approved list
+                    approvedCourses.push(courseId);
+                }
+                
+                localStorage.setItem('approvedCourses', JSON.stringify(approvedCourses));
+                renderCurriculum(); // Re-render the entire grid
+            };
+            
+            grid.addEventListener('click', handleCourseClick);
+            
+            // Initial render
+            renderCurriculum();
+        });
+    </script>
+</body>
+</html>
